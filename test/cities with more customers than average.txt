@@ -1,0 +1,15 @@
+WITH table_ AS
+  (
+    SELECT country_id, city_name, count(city_name) cond_customers
+    FROM city INNER JOIN customer
+    ON city.id = customer.city_id
+    GROUP BY city_name, country_id
+  )
+SELECT country_name, city_name, cond_customers
+FROM table_ INNER JOIN country
+ON table_.country_id = country.id
+WHERE cond_customers >
+(
+    SELECT count(*)/count(DISTINCt city_id) FROM customer
+)
+ORDER BY country_name;
