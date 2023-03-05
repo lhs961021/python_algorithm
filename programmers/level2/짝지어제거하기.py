@@ -1,19 +1,17 @@
+from collections import deque
+
 def solution(s):
-    answer = -1
+    answer = 1
     
-    a = []
+    queue = deque(s[0])
     
-    for i in s:
-        if len(a)==0:
-            a.append(i)
-        elif a[len(a)-1]==i:
-            a.pop()
+    for i in range(1,len(s)):
+        if queue and queue[len(queue)-1]==s[i]:
+            queue.pop()
         else:
-            a.append(i)
+            queue.append(s[i])
     
-    if len(a)==0:
-        answer = 1
+    if queue:
+        return 0
     else:
-        answer = 0
-    
-    return answer
+        return 1
