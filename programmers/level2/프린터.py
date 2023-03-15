@@ -1,33 +1,42 @@
-from collections import deque
+from collections import deque, Counter
 
 def solution(priorities, location):
+    
     answer = 0
     
     queue = deque()
-    ch_queue = deque(priorities)
     
-    check = max(priorities)
-    count = 0
+    c = Counter(priorities)
     
-    for i in range (len(priorities)):
-        queue.append((priorities[i],i))
     
-    while queue:
-        p,num  = queue.popleft()
-        z = ch_queue.popleft()
+    check = list(set(priorities))
+    check.sort(reverse=True)
+    
+    for idx,i in enumerate(priorities):
+        queue.append((i,idx))
         
-        if p==check:
-            count += 1
-            check = max(ch_queue)
-            if num==location:
-                answer = count
-                break
-            if len(queue)==1:
-                answer = count+1
-                break
+    flag = 0
+    count = 0
+    count_check = 0 
+    
+    for i in check:
+        length = len(queue)
+        flag = 0
+        count = 0
+        count_check = 0
+        while length!=flag and count_check != c[i]:
+            a = queue.popleft()
+            flag += 1
             
-        else:
-            queue.append((p,num))
-            ch_queue.append(z)
+            if a[0]==i:
+                answer += 1
+                if a[1]==location:
+                    print(a)
+                    return answer
+                else:
+                    count_check += 1
+                    pass
+            else:
+                queue.append(a)
 
     return answer
