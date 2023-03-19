@@ -5,13 +5,19 @@ def solution(scoville, K):
     
     heapq.heapify(scoville)
     
-    while scoville[0]<K:
-        try:
-            heapq.heappush(scoville,heapq.heappop(scoville)+(heapq.heappop(scoville)*2))
-            answer += 1
-            
-        except IndexError:
+    while 1:
+        small = heapq.heappop(scoville)
+        
+        if small>=K:
+            break
+        
+        if len(scoville)==0:
             return -1
         
-    
+        least = heapq.heappop(scoville)
+        
+        new = small + (least*2)    
+        heapq.heappush(scoville,new)
+        answer += 1
+
     return answer
