@@ -1,23 +1,27 @@
+from collections import deque
+
 def solution(record):
-    user = dict()
-    graph = []
     answer = []
-
+    
+    queue = deque()
+    dic = {}
+    
     for i in record:
-        a = i.split()
+        a = i.split(' ')
+        if a[0]=="Leave":
+            queue.append((a[1],a[0]))
+        elif a[0] == 'Enter':
+            dic[a[1]] = a[2]
+            queue.append((a[1],a[0]))
+        else:
+            dic[a[1]] = a[2]
+    
+    while queue:
+        user, work = queue.popleft()
+        if work == "Enter":
+            answer.append("{0}님이 들어왔습니다.".format(dic[user]))
+        else:
+            answer.append("{0}님이 나갔습니다.".format(dic[user]))
 
-        action,id = a[0],a[1]
-
-        if action=="Enter" or action=="Change":
-            user[id]=a[2]
-
-        graph.append((action,id))
-
-    for j in graph:
-        action,id = j[0],j[1]
-        if action=="Enter":
-            answer.append(f'{user[id]}님이 들어왔습니다.')
-        elif action=="Leave":
-            answer.append(f'{user[id]}님이 나갔습니다.')
 
     return answer
