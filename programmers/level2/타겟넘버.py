@@ -20,3 +20,21 @@ def solution(numbers, target):
                 answer += 1
 
     return answer
+
+def solution(numbers, target):
+    answer = 0
+    
+    def dfs(count,idx,numbers):
+        
+        if idx==len(numbers):
+            if count == target:
+                return 1
+            else:
+                return 0
+            
+        return dfs(count-numbers[idx],idx+1,numbers) + dfs(count+numbers[idx],idx+1,numbers)
+        
+    answer = dfs(0,0,numbers)
+    
+    
+    return answer
