@@ -30,3 +30,33 @@ def solution(numbers):
             answer += 1
     
     return answer
+
+from itertools import permutations
+import math
+
+def solution(numbers):
+    answer = 0
+    l = set()
+    
+    def check(num):
+        if num==1:
+            return False
+        
+        if num==2:
+            return True
+        
+        for i in range(2,int(math.sqrt(num))+1):
+            if num%i==0:
+                return False
+        
+        return True
+    
+    for i in range(1,len(numbers)+1):
+        for j in list(permutations(numbers,i)):
+            num = ''.join(j)
+            if j[0]!='0' and num not in l:
+                l.add(num)
+                if check(int(num))==True:
+                    answer += 1
+    
+    return answer
