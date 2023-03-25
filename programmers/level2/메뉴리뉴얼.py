@@ -25,3 +25,33 @@ def solution(orders, course):
     answer.sort()
     
     return answer
+
+from collections import Counter
+from itertools import combinations
+
+def solution(orders, course):
+    answer = []
+    
+    for i in course:
+        l = []
+        for order in orders:
+            order = list(order)
+            order.sort()
+            l.extend(list(combinations(order,i)))
+
+        for idx,i in enumerate(sorted(Counter(l).items(),key = lambda x : -x[1])):
+
+            if idx == 0:
+                flag = i[1]
+                if flag == 1:
+                    break
+                answer.append("".join(i[0]))
+            else:
+                if i[1] == flag:
+                    answer.append("".join(i[0]))
+                else:
+                    break
+    
+    answer.sort()
+    
+    return answer
